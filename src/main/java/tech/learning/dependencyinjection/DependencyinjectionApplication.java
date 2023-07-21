@@ -3,13 +3,23 @@ package tech.learning.dependencyinjection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import tech.learning.dependencyinjection.controllers.*;
+import tech.learning.dependencyinjection.services.PrototypeBean;
+import tech.learning.dependencyinjection.services.SingletonBean;
 
+//@ComponentScan(basePackages = {"tech.learning.dependencyinjection", "com.learning.pets"})
 @SpringBootApplication
 public class DependencyinjectionApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(DependencyinjectionApplication.class, args);
+
+		PetController petController = ctx.getBean("petController", PetController.class);
+
+		System.out.println("The ideal pet is:");
+
+		System.out.println(petController.whichPetIsTheBest());
 
 		I18nController i18nController = (I18nController) ctx.getBean("i18nController");
 
@@ -38,6 +48,16 @@ public class DependencyinjectionApplication {
 		ConstructorInjectedController constructorInjectedController = (ConstructorInjectedController) ctx.getBean("constructorInjectedController");
 
 		System.out.println(constructorInjectedController.getGreeting());
+
+		System.out.println(">>>Bean Scopes");
+		SingletonBean singletonBean1 = ctx.getBean(SingletonBean.class);
+		System.out.println(singletonBean1.getScope());
+		SingletonBean singletonBean2 = ctx.getBean(SingletonBean.class);
+		System.out.println(singletonBean2.getScope());
+		PrototypeBean prototypeBean1 = ctx.getBean(PrototypeBean.class);
+		System.out.println(prototypeBean1.getScope());
+		PrototypeBean prototypeBean2 = ctx.getBean(PrototypeBean.class);
+		System.out.println(prototypeBean2.getScope());
 	}
 
 }
