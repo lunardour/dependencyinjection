@@ -4,7 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import tech.learning.dependencyinjection.config.SfgConfiguration;
+import tech.learning.dependencyinjection.config.SfgConstructorConfig;
 import tech.learning.dependencyinjection.controllers.*;
+import tech.learning.dependencyinjection.datasource.FakeDataSource;
 import tech.learning.dependencyinjection.services.PrototypeBean;
 import tech.learning.dependencyinjection.services.SingletonBean;
 
@@ -50,6 +53,7 @@ public class DependencyinjectionApplication {
 		System.out.println(constructorInjectedController.getGreeting());
 
 		System.out.println(">>>Bean Scopes");
+
 		SingletonBean singletonBean1 = ctx.getBean(SingletonBean.class);
 		System.out.println(singletonBean1.getScope());
 		SingletonBean singletonBean2 = ctx.getBean(SingletonBean.class);
@@ -58,6 +62,24 @@ public class DependencyinjectionApplication {
 		System.out.println(prototypeBean1.getScope());
 		PrototypeBean prototypeBean2 = ctx.getBean(PrototypeBean.class);
 		System.out.println(prototypeBean2.getScope());
+
+		System.out.println(">>>Data Source");
+		FakeDataSource fakeDataSource = ctx.getBean("fakeDataSource", FakeDataSource.class);
+		System.out.println("username: " + fakeDataSource.getUsername());
+		System.out.println("password: " + fakeDataSource.getPassword());
+		System.out.println("jdbcurl: " + fakeDataSource.getJdbcurl());
+
+		System.out.println(">>>Config Props Bean");
+		SfgConfiguration sfgConfiguration = ctx.getBean("sfgConfiguration", SfgConfiguration.class);
+		System.out.println("username: " + sfgConfiguration.getUsername());
+		System.out.println("password: " + sfgConfiguration.getPassword());
+		System.out.println("jdbcurl: " + sfgConfiguration.getJdbcurl());
+
+		System.out.println(">>>Constructor Binding");
+		SfgConstructorConfig sfgConstructorConfig = ctx.getBean(SfgConstructorConfig.class);
+		System.out.println("username: " + sfgConstructorConfig.getUsername());
+		System.out.println("password: " + sfgConstructorConfig.getPassword());
+		System.out.println("jdbcurl: " + sfgConstructorConfig.getJdbcurl());
 	}
 
 }

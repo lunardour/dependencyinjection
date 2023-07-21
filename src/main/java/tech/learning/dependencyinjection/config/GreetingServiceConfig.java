@@ -1,5 +1,6 @@
 package tech.learning.dependencyinjection.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.*;
 import tech.learning.dependencyinjection.repositories.EnglishGreetingRepository;
 import tech.learning.dependencyinjection.repositories.EnglishGreetingRepositoryImpl;
